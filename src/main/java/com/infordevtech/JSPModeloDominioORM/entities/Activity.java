@@ -1,13 +1,17 @@
 package com.infordevtech.JSPModeloDominioORM.entities;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,6 +24,7 @@ public class Activity {
 	
 	private String name;
 	
+	@Column(columnDefinition = "TEXT")
 	private String description;
 	
 	private Double price;
@@ -27,6 +32,9 @@ public class Activity {
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private Category category;
+	
+	@OneToMany(mappedBy = "activity")
+	private List<Block> blocks = new ArrayList<>();
 	
 	public Activity() {
 	}
@@ -68,6 +76,18 @@ public class Activity {
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public List<Block> getBlocks() {
+		return blocks;
 	}
 
 	@Override
