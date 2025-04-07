@@ -1,8 +1,8 @@
 package com.infordevtech.JSPModeloDominioORM.entities;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,6 +10,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -34,7 +36,13 @@ public class Activity {
 	private Category category;
 	
 	@OneToMany(mappedBy = "activity")
-	private List<Block> blocks = new ArrayList<>();
+	private Set<Block> blocks = new HashSet<>();
+	
+	@ManyToMany()
+	@JoinTable(name = "tb_participant_activity",
+			joinColumns = @JoinColumn(name = "activity_id"),
+			inverseJoinColumns = @JoinColumn(name = "participant_id"))
+	private Set<Participant> participants = new HashSet<>();
 	
 	public Activity() {
 	}
@@ -86,8 +94,12 @@ public class Activity {
 		this.category = category;
 	}
 
-	public List<Block> getBlocks() {
+	public Set<Block> getBlocks() {
 		return blocks;
+	}
+
+	public Set<Participant> getParticipants() {
+		return participants;
 	}
 
 	@Override
